@@ -78,6 +78,19 @@ Setelah instalasi selesai:
 lxc exec debian-vm -- bash
 ```
 
+Install SSH agar bisa di remot
+
+```bash
+apt update && apt install -y openssh-server
+
+echo "root:xccvme" | chpasswd
+echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/99-allow-root.conf
+echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config.d/99-allow-root.conf
+
+systemctl restart ssh
+systemctl status ssh
+```
+
 ### 2) Console TTY (seperti monitor fisik)
 
 ```bash

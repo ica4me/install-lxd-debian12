@@ -57,6 +57,28 @@ chmod +x   01-install-lxd.sh   02-launch-vm.sh   03-setup-routing.sh   04-setup-
 ./04-setup-permissions.sh
 ```
 
+### 5) Longgarkan Limit RAM Container (Mengatasi OOM Killer)
+
+Setting ini di host bukan vm lxd
+
+Buat Swap
+
+```bash
+wget https://raw.githubusercontent.com/ica4me/auto-script-free/main/make-swap.sh && chmod +x make-swap.sh && bash make-swap.sh
+```
+
+Menghapus batasan RAM kaku
+
+```bash
+lxc config unset debian-vm limits.memory
+```
+
+Mengizinkan container memakai memori Swap host tanpa batas
+
+```bash
+lxc config set debian-vm limits.memory.swap true
+```
+
 ---
 
 ## 💻 Akses & Manajemen

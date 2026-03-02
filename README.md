@@ -16,23 +16,40 @@ Skrip ini ditujukan untuk dijalankan pada **Host Linux (Debian/Ubuntu)** dan sud
 
 ## 🚀 Cara Instalasi
 
+### 0) Siapkan direktori kerja
+
+```bash
+apt-get update && apt-get install -y wget git curl
+```
+
+```bash
+rm -f /etc/resolv.conf
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
+echo "nameserver 1.1.1.1" >> /etc/resolv.conf
+systemctl restart systemd-resolved 2>/dev/null || systemctl restart networking 2>/dev/null
+```
+
 ### 1) Siapkan direktori kerja
+
 ```bash
 mkdir -p /root/lxd-deployment
 cd /root/lxd-deployment
 ```
 
 ### 2) Clone repositori
+
 ```bash
 git clone https://github.com/ica4me/install-lxd-debian12.git .
 ```
 
 ### 3) Beri izin eksekusi pada skrip
+
 ```bash
 chmod +x   01-install-lxd.sh   02-launch-vm.sh   03-setup-routing.sh   04-setup-permissions.sh   99-purge-all.sh
 ```
 
 ### 4) Jalankan skrip secara berurutan
+
 ```bash
 ./01-install-lxd.sh
 ./02-launch-vm.sh
@@ -56,11 +73,13 @@ Setelah instalasi selesai:
 ## Masuk ke Container
 
 ### 1) Shell langsung (paling cepat)
+
 ```bash
 lxc exec debian-vm -- bash
 ```
 
 ### 2) Console TTY (seperti monitor fisik)
+
 ```bash
 lxc console debian-vm
 ```
@@ -68,6 +87,7 @@ lxc console debian-vm
 Untuk keluar dari TTY: tekan `Ctrl + a`, lepaskan, lalu tekan `q`.
 
 ### 3) SSH dari luar (internet)
+
 ```bash
 ssh root@<IP_PUBLIC_HOST>
 ```
@@ -89,11 +109,13 @@ ssh root@<IP_PUBLIC_HOST> -p 2026
 ## Kontrol Container
 
 ### Menghentikan container
+
 ```bash
 lxc stop debian-vm
 ```
 
 ### Menghapus container saja
+
 ```bash
 lxc delete debian-vm --force
 ```
@@ -109,5 +131,6 @@ Untuk menghapus seluruh environment LXD, membebaskan ruang penyimpanan Host, ser
 ```
 
 **Catatan:**
+
 - Skrip purge akan menghapus container beserta datanya, mencabut LXD dari sistem, dan membersihkan aturan iptables.
 - Port SSH Host akan **tetap** berada di **2026**. Jika ingin mengembalikannya, ubah `/etc/ssh/sshd_config` secara manual dan restart SSH.

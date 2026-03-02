@@ -1,88 +1,113 @@
-# Install Debian 12 LXD Container (Generic Cloud)
+# Install Debian 12 Generic Cloud di LXD Container
 
 Repositori ini berisi kumpulan skrip otomatis untuk menginstal dan menjalankan **Debian 12 Generic Cloud** di dalam **LXD Container**.
 
-Skrip ini dirancang untuk dijalankan pada **Host Linux (Debian atau Ubuntu)** dan sudah dioptimalkan dengan hak akses penuh (_privileged_, modul kernel, perangkat TUN) sehingga sangat cocok untuk menjalankan layanan VPN / Tunneling Server (seperti Xray, OpenVPN, BadVPN, dll).
+Skrip ini ditujukan untuk dijalankan pada **Host Linux (Debian/Ubuntu)** dan sudah dioptimalkan untuk kebutuhan akses penuh (_privileged_, modul kernel, perangkat TUN). Cocok untuk menjalankan layanan VPN / tunneling server (mis. Xray, OpenVPN, BadVPN, dan sejenisnya).
+
+---
+
+## Prasyarat
+
+- Anda **login sebagai `root`** pada VPS/Server Host sebelum memulai.
+- Host OS: **Debian atau Ubuntu**.
+- Akses internet pada host (untuk instalasi paket dan image).
 
 ---
 
 ## 🚀 Cara Instalasi
 
-Pastikan Anda login sebagai `root` di VPS / Server Host Anda sebelum memulai.
-
-**1. Buat direktori kerja dan masuk ke dalamnya:**
-\`\`\`bash
+### 1) Siapkan direktori kerja
+```bash
 mkdir -p /root/lxd-deployment
 cd /root/lxd-deployment
-\`\`\`
+```
 
-**2. Clone repositori ini ke dalam direktori tersebut:**
-\`\`\`bash
+### 2) Clone repositori
+```bash
 git clone https://github.com/ica4me/install-lxd-debian12.git .
-\`\`\`
+```
 
-**3. Berikan izin eksekusi pada semua skrip:**
-\`\`\`bash
-chmod +x 01-install-lxd.sh 02-launch-vm.sh 03-setup-routing.sh 04-setup-permissions.sh 99-purge-all.sh
-\`\`\`
+### 3) Beri izin eksekusi pada skrip
+```bash
+chmod +x   01-install-lxd.sh   02-launch-vm.sh   03-setup-routing.sh   04-setup-permissions.sh   99-purge-all.sh
+```
 
-**4. Eksekusi skrip secara berurutan:**
-\`\`\`bash
+### 4) Jalankan skrip secara berurutan
+```bash
 ./01-install-lxd.sh
 ./02-launch-vm.sh
 ./03-setup-routing.sh
 ./04-setup-permissions.sh
-\`\`\`
+```
 
 ---
 
-## 💻 Panduan Akses & Manajemen
+## 💻 Akses & Manajemen
 
-Setelah proses instalasi selesai, port SSH standar (22) milik Host akan dipindah ke `2026`, dan semua trafik internet publik akan dibelokkan langsung ke dalam Container (Mode DMZ).
+Setelah instalasi selesai:
 
-### Masuk ke Container (VM)
+- Port SSH standar Host (**22**) akan dipindahkan ke **2026**.
+- Trafik internet publik akan dibelokkan langsung ke container (mode **DMZ**).
 
-- **Masuk via Shell Langsung (Paling Cepat & Mudah):**
-  \`\`\`bash
-  lxc exec debian-vm -- bash
-  \`\`\`
-- **Masuk via Console TTY (Seperti layar monitor fisik):**
-  \`\`\`bash
-  lxc console debian-vm
-  \`\`\`
-  _(Untuk keluar dari TTY: tekan `Ctrl + a`, lepaskan, lalu tekan `q`)_
-- **Akses SSH dari Luar (Internet):**
-  \`\`\`bash
-  ssh root@<IP_PUBLIC_HOST>
-  \`\`\`
-  _(Gunakan password default yang ada di file `user-data`)_
+> **Catatan penting:** Pastikan Anda sudah menguji akses ke Host via port **2026** sebelum menutup sesi saat ini, agar tidak terkunci dari server.
 
-### Akses ke OS Host
+---
 
-Karena port 22 sudah diteruskan ke container, Anda harus menggunakan port 2026 untuk meremote Host.
-\`\`\`bash
+## Masuk ke Container
+
+### 1) Shell langsung (paling cepat)
+```bash
+lxc exec debian-vm -- bash
+```
+
+### 2) Console TTY (seperti monitor fisik)
+```bash
+lxc console debian-vm
+```
+
+Untuk keluar dari TTY: tekan `Ctrl + a`, lepaskan, lalu tekan `q`.
+
+### 3) SSH dari luar (internet)
+```bash
+ssh root@<IP_PUBLIC_HOST>
+```
+
+Gunakan password default yang ada di file `user-data`.
+
+---
+
+## Akses ke OS Host
+
+Karena port 22 sudah diteruskan ke container, gunakan port **2026** untuk mengakses Host:
+
+```bash
 ssh root@<IP_PUBLIC_HOST> -p 2026
-\`\`\`
+```
 
-### Kontrol Container
+---
 
-- **Menghentikan Container:**
-  \`\`\`bash
-  lxc stop debian-vm
-  \`\`\`
-- **Menghapus Container Saja:**
-  \`\`\`bash
-  lxc delete debian-vm --force
-  \`\`\`
+## Kontrol Container
+
+### Menghentikan container
+```bash
+lxc stop debian-vm
+```
+
+### Menghapus container saja
+```bash
+lxc delete debian-vm --force
+```
 
 ---
 
 ## 🗑️ Uninstall & Purge (Hapus Bersih)
 
-Jika Anda ingin menghapus seluruh _environment_ LXD, membebaskan kembali ruang penyimpanan Host, dan menghapus aturan _routing_ yang sudah dibuat, jalankan skrip _purge_ berikut:
+Untuk menghapus seluruh environment LXD, membebaskan ruang penyimpanan Host, serta menghapus aturan routing yang dibuat, jalankan:
 
-\`\`\`bash
+```bash
 ./99-purge-all.sh
-\`\`\`
+```
 
-**Catatan:** Skrip _purge_ ini akan menghapus permanen container beserta datanya, mencabut LXD dari sistem operasi, dan membersihkan aturan Iptables. Port SSH Host akan tetap berada di `2026`, Anda dapat mengembalikannya secara manual di `/etc/ssh/sshd_config` jika diperlukan.
+**Catatan:**
+- Skrip purge akan menghapus container beserta datanya, mencabut LXD dari sistem, dan membersihkan aturan iptables.
+- Port SSH Host akan **tetap** berada di **2026**. Jika ingin mengembalikannya, ubah `/etc/ssh/sshd_config` secara manual dan restart SSH.

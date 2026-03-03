@@ -6,7 +6,7 @@ lxc profile create debian-cloud 2>/dev/null || true
 lxc profile set debian-cloud user.user-data - < user-data
 
 echo "==> Meluncurkan container $CONTAINER_NAME..."
-lxc launch images:debian/12/cloud $CONTAINER_NAME --profile default --profile debian-cloud
+lxc launch local:debian12-local $CONTAINER_NAME --profile default --profile debian-cloud
 
 # ==========================================
 # PENGATURAN SPESIFIKASI DINAMIS

@@ -50,6 +50,23 @@ chmod +x   01-install-lxd.sh   02-launch-vm.sh   03-setup-routing.sh   04-setup-
 
 ### 4) Jalankan skrip secara berurutan
 
+Download Image
+
+```bash
+echo "==> Memulai download image..."
+lxc image copy images:debian/12/cloud local: --alias debian12-local &
+
+while lxc operation list | grep -q "Downloading image"; do
+    clear
+    lxc operation list
+    sleep 2
+done
+
+clear
+echo " ✅ PROSES SELESAI! "
+lxc image list
+```
+
 ```bash
 ./01-install-lxd.sh
 ./02-launch-vm.sh

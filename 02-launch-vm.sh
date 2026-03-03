@@ -5,9 +5,8 @@ echo "==> Membuat profil Cloud-Init LXD..."
 lxc profile create debian-cloud 2>/dev/null || true
 lxc profile set debian-cloud user.user-data - < user-data
 
-echo "==> Meluncurkan container $CONTAINER_NAME (Instant dari image lokal)..."
-# Menggunakan 'local:debian12-local' yang sudah diunduh di skrip 01
-lxc launch local:debian12-local $CONTAINER_NAME --profile default --profile debian-cloud
+echo "==> Meluncurkan container $CONTAINER_NAME..."
+lxc launch images:debian/12/cloud $CONTAINER_NAME --profile default --profile debian-cloud
 
 # ==========================================
 # PENGATURAN SPESIFIKASI DINAMIS

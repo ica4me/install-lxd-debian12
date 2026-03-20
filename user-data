@@ -1,8 +1,8 @@
 #cloud-config
 chpasswd:
   list: |
-    #root:xccvme
-    #debian:xccvme
+    #root:asalaja
+    #debian:yaapaya
   expire: False
 ssh_pwauth: True
 

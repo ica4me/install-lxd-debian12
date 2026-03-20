@@ -165,6 +165,12 @@ Untuk menghapus seluruh environment LXD, membebaskan ruang penyimpanan Host, ser
 ./99-purge-all.sh
 ```
 
+## FIX ERROR HOST lxc: command not found
+
+```bash
+./fix-host-error.sh
+```
+
 **Catatan:**
 
 - Skrip purge akan menghapus container beserta datanya, mencabut LXD dari sistem, dan membersihkan aturan iptables.

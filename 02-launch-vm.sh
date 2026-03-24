@@ -5,9 +5,9 @@ echo "================================================="
 echo " SETUP PASSWORD ROOT CONTAINER "
 echo "================================================="
 echo "Ketik password untuk user 'root' lalu tekan Enter."
-echo "Jika tidak diisi selama 15 detik, password akan digenerate otomatis."
-# Prompt password disembunyikan (-s) dengan limit 15 detik (-t 5)
-read -t 15 -s -p "Masukkan Password: " ROOT_PASS
+echo "Jika tidak diisi selama 30 detik, password akan digenerate otomatis."
+# Prompt password disembunyikan (-s) dengan limit 30 detik (-t 30)
+read -t 30 -s -p "Masukkan Password: " ROOT_PASS
 echo ""
 
 # Cek apakah password kosong (user tekan enter kosong atau waktu habis)

@@ -172,6 +172,18 @@ Untuk menghapus seluruh environment LXD, membebaskan ruang penyimpanan Host, ser
 ./fix-host-error.sh
 ```
 
+```
+# Muat Ulang Environment Path (Penting)
+source /etc/profile
+export PATH=$PATH:/snap/bin
+```
+
+```
+# Cek Versi(Verifikasi LXD/LXC)
+lxc --version
+lxd --version
+```
+
 **Catatan:**
 
 - Skrip purge akan menghapus container beserta datanya, mencabut LXD dari sistem, dan membersihkan aturan iptables.

@@ -45,7 +45,7 @@ git clone https://github.com/ica4me/install-lxd-debian12.git .
 ### 3) Beri izin eksekusi pada skrip
 
 ```bash
-chmod +x   01-install-lxd.sh   02-launch-vm.sh   03-setup-routing.sh   04-setup-permissions.sh   99-purge-all.sh fix-host-error.sh
+chmod +x   01-install-lxd.sh   02-launch-vm.sh   03-setup-routing.sh   04-setup-permissions.sh 05-console-shortcut.sh 99-purge-all.sh fix-host-error.sh
 ```
 
 ### 4) Jalankan skrip secara berurutan
@@ -55,6 +55,7 @@ chmod +x   01-install-lxd.sh   02-launch-vm.sh   03-setup-routing.sh   04-setup-
 ./02-launch-vm.sh
 ./03-setup-routing.sh
 ./04-setup-permissions.sh
+./05-console-shortcut.sh
 ```
 
 ### 5) Longgarkan Limit RAM Container (Mengatasi OOM Killer)

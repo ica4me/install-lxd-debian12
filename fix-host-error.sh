@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # 1. Matikan semua proses swap yang sedang aktif di sistem
 swapoff -a
 
@@ -13,5 +15,13 @@ snap remove lxd --purge
 # 5. Instal kembali LXD dengan bersih
 snap install lxd
 
-# 6. Coba panggil lagi
+# 6. Terapkan Environment Path
+source /etc/profile
+export PATH=$PATH:/snap/bin
+
+# 7. Cek versi untuk verifikasi
+echo "================================================="
+echo "VERIFIKASI INSTALASI LXD:"
+lxc --version
 lxd --version
+echo "================================================="
